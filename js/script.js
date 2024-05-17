@@ -7,16 +7,20 @@ window.onload = function () {
     startGame();
   });
 
+  restartButton.addEventListener("click", () =>{
+    location.reload()
+  })
+
     document.addEventListener('keydown', (event)=> {
       console.log("a key was pressed", event);
       if(event.code === "ArrowRight"){
-          ourGame.player.directionX = 1
+          ourGame.player.directionX = 2
       }else if(event.code === "ArrowLeft"){
-         ourGame.player.directionX = -1
+         ourGame.player.directionX = -2
       }else if(event.code === "ArrowUp"){
-        ourGame.player.directionY = -1
+        ourGame.player.directionY = -2
       }else if(event.code === "ArrowDown"){
-        ourGame.player.directionY = 1
+        ourGame.player.directionY = 2
       }
     })
 

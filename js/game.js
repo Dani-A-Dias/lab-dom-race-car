@@ -14,7 +14,7 @@ class Game {
         this.gameLoopFrequency = 1000/60;
     }
 
-
+    //to start the game after clicking on the start button
     start(){
         this.gameScreen.style.height = `${this.height}px`
         this.gameScreen.style.width = `${this.width}px`;
@@ -41,12 +41,37 @@ class Game {
         this.player.move();
         this.obstacles.forEach((oneObstacle, oneObstacleIndex) => {
             oneObstacle.move();
+
+            const thereWasACollision = this.player.didCollide(oneObstacle)
+
+            if(thereWasACollision){
+                console.error("Bang, you hit my car!");
+                this.obstacles.splice(oneObstacleIndex, 1);
+                oneObstacle.element.remove(); 
+                this.obstacles.push(new Obstacle(this.gameScreen));
+                this.lives -=1
+                if(this.lives === 0){
+                    this.isGameOver = true;
+                    this.gameOver()
+                }
+                const livesElement = document.getElementById("lives");
+                livesElement.innerText = this.lives
+            }
+
             if (oneObstacle.top > 600) {
                 this.obstacles.splice(oneObstacleIndex, 1);
                 oneObstacle.element.remove(); 
                 this.score += 1;
+                const scoreElement = document.getElementById("score");
+                scoreElement.innerText = this.score
                 this.obstacles.push(new Obstacle(this.gameScreen));
             }
         });
+    }
+
+
+    gameOver(){
+        this.gameScreen.style.display = "none";
+        this.gameEndScreen.style.display = "block";
     }
 }
